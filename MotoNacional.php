@@ -22,7 +22,7 @@ class MotoNacional extends Moto {
     {
         $valor = parent :: darPrecioVenta();
         if($valor != -1 && $valor > 0){
-            $valor -= $valor * $this->getPorcentajeDescuento();
+            $valor = $valor - ( $valor * $this->getPorcentajeDescuento());
         }
         return $valor;
     }

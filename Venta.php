@@ -21,6 +21,8 @@ class Venta
     private $objCliente;
     private $colMotos;
     private $precioFinal;
+    private $colMotoNacional;
+    private $colMotoImportada;
 
     public function __construct($id_venta, $fechaIn, $objCliente, $precio){
         $this->numero = $id_venta;
@@ -28,6 +30,8 @@ class Venta
         $this->objCliente = $objCliente;
         $this->colMotos = [];
         $this->precioFinal = $precio;
+        $this->colMotoNacional = [];
+        $this->colMotoImportada = [];
     }
 
      //Getters
@@ -47,6 +51,12 @@ class Venta
     public function getPrecioFinal(){
         return $this->precioFinal;
     }
+    public function getColMotoNacional(){
+        return $this->colMotoNacional;
+    }
+    public function getColMotoImportada(){
+        return $this->colMotoImportada;
+    }
 
      //Setters
 
@@ -65,6 +75,12 @@ class Venta
     public function setPrecioFinal($precio){
         $this->precioFinal = $precio;
     }
+    public function setColMotoNacional($colMotoNacional){
+        $this->colMotoNacional = $colMotoNacional;
+    }
+    public function setColMotoImportada($colMotoImportada){
+        $this->colMotoImportada = $colMotoImportada;
+    }
 
     public function incorporarMoto($objMoto){
          //vemos si la moto esta disponible para la venta
@@ -77,6 +93,43 @@ class Venta
             $this->setColMotos($colMotos);
             }
         }
+
+    public function incorporarMotoNacional($objMotoNacional){
+        if ($objMotoNacional->getActiva()){
+            $precio = $this->getPrecioFinal() + $objMotoNacional->darPrecioVenta();
+            $this->setPrecioFinal($precio);
+
+            $colMotoNacional = $this->getColMotoNacional();
+            $colMotoNacional[] = $objMotoNacional;
+            $this->setColMotoNacional($colMotoNacional);
+        }
+    }
+
+    // 1.	Implementar el método retornarTotalVentaNacional() que retorna  la sumatoria del precio venta de cada una de las motos Nacionales vinculadas a la venta.
+
+    public function retornarTotalValorVentaNacional(){
+        $colMotoNacional = $this->getColMotoNacional();
+        $totalVentaNacional = 0;
+        $i = 0;
+
+        while($i < count($colMotoNacional)){
+            $motoNacional = $colMotoNacional[$i];
+            $totalVentaNacional = $totalVentaNacional + $motoNacional->darPrecioVenta();
+            $i++;
+        }
+        return $totalVentaNacional;
+    }
+
+    //2.	Implementar el método retornarMotosImportadas() que retorna una colección de motos importadas vinculadas a la venta. Si la venta solo se corresponde con motos Nacionales la colección retornada debe ser vacía.
+
+    public function retornarMotosImportadas($objMotoImportada){
+        $colMotoImportada = $this->getColMotoImportada();
+        $retornoImportadas = [];
+        if($colMotoImportada != null){
+            $retornoImportadas = $colMotoImportada;
+        }
+        return $retornoImportadas;
+    }
 
     public function __toString(){
         return "Numero: " . $this->getNumero() . "\n" . 
