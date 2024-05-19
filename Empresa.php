@@ -125,41 +125,19 @@ class Empresa
         return $ventasClienteString;
     }
 
-    public function listadoClientes(){
-        $coll = $this->getColClientes();
-        $listadoCli = "";
-        
-        foreach($coll as $cliente){
-            $listadoCli = $listadoCli . $cliente . "\n";
+    public function retornarCadenaDesdeColeccion($coleccion){
+        $cadena = "";
+        foreach($coleccion as $elemento){
+            $cadena = $cadena . "" . $elemento . "\n";
         }
-        return $listadoCli;
-    }
-    
-    public function listadoMotos(){
-        $colMo = $this->getColMotos();
-        $listadoMo = "";
-    
-        foreach($colMo as $moto){
-            $listadoMo .= $moto . "\n";
-        }
-        return $listadoMo;
-    }
-    
-    public function listadoVentas(){
-        $col = $this->getColVentas();
-        $listado = "";
-    
-        foreach($col as $venta){
-            $listado .= $venta . "\n";
-        }
-        return $listado;
+        return $cadena;
     }
 
     public function __toString(){
-        return "Denominacion: " . $this->getDenominacion() . "\n" . 
-        "Direccion: " . $this->getDireccion() . "\n" . 
-        "informacion Motos: " . $this->listadoMotos() . "\n" .
-        "informacion Cliente: " .  $this->listadoClientes() . "\n" . 
-        "informacion Ventas: " . $this->listadoVentas() . "\n";
+        $cadena = "Denominacion: " . $this->getDenominacion() . "\n";
+        $cadena .= "Direccion: " . $this->getDireccion() . "\n";
+        $cadena .= "Informacion Motos: " . $this->retornarCadenaDesdeColeccion($this->getColMotos()) . "\n";
+        $cadena .= "Informacion Cliente: " . $this->retornarCadenaDesdeColeccion($this->getColClientes()) . "\n";
+        $cadena .= "Informacion Ventas: " . $this->retornarCadenaDesdeColeccion($this->getColVentas()) . "\n";
     }
 }
